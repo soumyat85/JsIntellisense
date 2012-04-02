@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Try It Live Preview Editor - HTML5-tuturials.org</title>
+	<meta name="generator" content="TSW WebCoder 2010" />
+	<link href='http://fonts.googleapis.com/css?family=Noticia+Text:400,700,400italic,700italic' rel='stylesheet' type='text/css' />
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/data_types.js"></script>
+        <script type="text/javascript" src="js/intellisense.js"></script>
+        <script type="text/javascript" src="js/parse-js.js"></script>
+	<script type="text/javascript" src="js/introspect.js"></script>
+        <script type="text/javascript" src="js/process.js"></script>
+	<script type="text/javascript" src="js/api.js"></script>
+	<style type="text/css">
+	body {
+		background-color: #818176;
+		color: #fff;
+		font-family: "MS Trebuchet", Tahoma, Arial, sans-serif;
+	}
+	/*footer, header, nav, section, aside {
+		background-color: #98988A;
+		padding: 5px;
+		margin: 5px 0;
+	}
+	article {
+		background-color: #5A5A5A;
+		padding: 5px;
+		margin: 5px 0;
+	} */
+	h1.introHeader {
+		font-family: 'Noticia Text', serif;
+		font-size: 120%;
+		padding-left: 15px;
+}
+	
+	a:link, a:visited {
+		color: #24c2de;
+	}  
+	a:hover {
+		color: #fff;
+	}
+	a:active {
+		color: #de2452;
+}
+	</style>
+	<script type="text/javascript">
+        $(function() {
+            $("#Button1").click(function() {
+                var code = $("#code").val();
+                var results = api_call(code, "show_functions");
+                document.getElementById("result").value = results;
+            });
+        });
+	</script>
+</head>
+<body>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+	<tr style="background-color: #27d4f2;">
+		<td><h1 class="introHeader">Live Preview Editor</h1></td>
+		<td><h1 class="introHeader">Your Result</h1></td>
+	</tr>
+	<tr>
+		<td style="width: 500px">
+            <textarea id="code" class="code" placeholder="Remember, be nice!" cols="100" rows="20"></textarea>
+        </td>
+        <td>
+            <textarea id="result" class="result" cols="25" rows="18"></textarea> 
+            <br>
+            <input id="Button1" type="button" value="Submit Code" />
+        </td>        
+	</tr>
+    
+    
+</table>
+
+<p>Edit the code above and see a live preview of your changes</p>
+
+</body>
+</html>
