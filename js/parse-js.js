@@ -692,7 +692,7 @@ function parse($TEXT, exigent_mode, embed_tokens) {
                     labels      : []
             };
     
-            S.token = next();           
+        S.token = next();           
         
         this.entered_defun = false;
         
@@ -710,7 +710,13 @@ function parse($TEXT, exigent_mode, embed_tokens) {
                 } else {
                         S.token = S.input();
                 }
-                return S.token;
+                
+                var token = new type_token();
+                token.obj = S.token;
+                token.line = S.line;
+                token.col = S.col;
+                token.pos = S.pos;
+                return token;
         };
 
         function prev() {
@@ -806,11 +812,11 @@ function parse($TEXT, exigent_mode, embed_tokens) {
         var statement = maybe_embed_tokens(function() {
                 if (is("operator", "/") || is("operator", "/=")) {
                         S.peeked = null;
-                        S.token = S.input(S.token.value.substr(1)); // force regexp
+                        S.token = S.input(S.token.obj.value.substr(1)); // force regexp
                 }
-                switch (S.token.type) {
+                switch (S.token.obj.type) {
                     case "string":
-                        if (S.token.value == "use strict") {
+                        if (S.token.obj.value == "use strict") {
                                 next();
                                 return as("use-strict");
                         }
@@ -822,11 +828,11 @@ function parse($TEXT, exigent_mode, embed_tokens) {
 
                     case "name":
                         return is_token(peek(), "punc", ":")
-                                ? labeled_statement(prog1(S.token.value, next, next))
+                                ? labeled_statement(prog1(S.token.obj.value, next, next))
                                 : simple_statement();
 
                     case "punc":
-                        switch (S.token.value) {
+                        switch (S.token.obj.value) {
                             case "{":
                                 return as("block", block_());
                             case "[":
@@ -840,7 +846,7 @@ function parse($TEXT, exigent_mode, embed_tokens) {
                         }
 
                     case "keyword":
-                        switch (prog1(S.token.value, next)) {
+                        switch (prog1(S.token.obj.value, next)) {
                             case "break":
                                 return break_cont("break");
 
