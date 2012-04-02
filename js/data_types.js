@@ -158,11 +158,3 @@ function binary_expression() {
 }
 
 binary_expression.prototype = new type_object();
-
-/////////////////////////////////// Tokenizer Datatype //////////////////////////////
-function type_token() {
-    this.col = 0;
-    this.pos = 0;
-    this.line = 0;
-    this.obj = null;
-}
