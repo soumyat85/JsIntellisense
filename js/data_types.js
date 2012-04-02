@@ -21,7 +21,7 @@ function global_node() {
     
     this.add_obj = function(obj_type, obj) {
         switch(obj_type) {
-            case "var":
+            case "global_var":
                 this._add_global_var(obj.name, obj);
                 this._add_global_obj(obj.name, obj);
                 break;
@@ -140,7 +140,6 @@ function type_variable() {
 type_variable.prototype = new type_object();
 
 function type_expression() {
-    this.expr = null;
 }
 
 type_expression.prototype = new type_object();

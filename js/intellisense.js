@@ -18,10 +18,22 @@ function walk_tree(ast) {
         "assign" : function() {
             var assign_expr = new assign_expression();
             assign_expr.type = "assign_expr";
-            assign_expr.expr.left_expr = walk_tree(ast[2]);
-            assign_expr.expr.right_expr = walk_tree(ast[3]);
+            assign_expr.left_expr = walk_tree(ast[2]);
+            assign_expr.right_expr = walk_tree(ast[3]);
             
-            return expr;
+            return assign_expr;
+        },
+        
+        "var" : function() {
+            var assign_expr = new assign_expression();
+            assign_expr.type = "assign_expr";
+            
+            assign_expr.left_expr = new type_object();
+            assign_expr.left_expr.name = ast[1][0][0];
+            
+            assign_expr.right_expr = walk_tree(ast[1][0][1]);
+            
+            return assign_expr;            
         },
         
         "stat" : function() {
@@ -122,6 +134,11 @@ function parse_prototype_ast(ast) {
     
     return prototype_expr;
     // Prototype Expression.
+}
+
+function parse_global_vars(ast) {
+    var global_var_expr = walk_tree(ast);
+    GlobalIntellisenseRoot.add_obj("global_var", global_var_expr.right_expr);
 }
 
 // Get the intellisense function to run

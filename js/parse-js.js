@@ -694,6 +694,8 @@ function parse($TEXT, exigent_mode, embed_tokens) {
     
             S.token = next();           
         
+        this.entered_defun = false;
+        
         function is(type, value) {
                 return is_token(S.token, type, value);
         };
@@ -755,20 +757,25 @@ function parse($TEXT, exigent_mode, embed_tokens) {
 
         function as() {
             // WARNING: Do not send raw arguments. Slice them before sending over.
+            var parent = arguments[arguments.length - 1];
             var ast = slice(arguments);
             switch(arguments[0]) {
                 case "defun":
                     parse_defun(arguments[1], ast);
+                    this.entered_defun = false;
                     break;
                     
                 case "stat":
                     if (_is_['prototype'](ast)) {
                         parse_prototype_ast(ast);
                     }
+
                     break;
                 
                 case "var":
-                    parse_local_composition_ast(arguments[1][0]);
+                    if (this.entered_defun == false) {
+                        parse_global_vars(ast);
+                    }
                     break;
             }
                 
@@ -961,6 +968,7 @@ function parse($TEXT, exigent_mode, embed_tokens) {
         };
 
         var function_ = function(in_statement) {
+                this.entered_defun = true;
                 var name = is("name") ? prog1(S.token.value, next) : null;
                 if (in_statement && !name)
                         unexpected();
